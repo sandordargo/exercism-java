@@ -1,12 +1,23 @@
 import javafx.util.Pair;
 
-import java.util.StringTokenizer;
+import java.util.*;
 
 /**
  * Created by sdargo on 07/07/16.
  */
 public class RomanNumeral {
   private int arabicNumber;
+  static Map<Integer, String> arabicRomanMap = new TreeMap<>(Collections.reverseOrder());
+
+  static {
+    arabicRomanMap.put(1000, "M");
+    arabicRomanMap.put(500, "D");
+    arabicRomanMap.put(100, "C");
+    arabicRomanMap.put(50, "L");
+    arabicRomanMap.put(10, "X");
+    arabicRomanMap.put(5, "V");
+    arabicRomanMap.put(1, "I");
+  }
 
   public RomanNumeral(int arabicNumber) {
     this.arabicNumber = arabicNumber;
@@ -14,20 +25,12 @@ public class RomanNumeral {
 
   public String getRomanNumeral() {
     String roman = "";
-    Pair<String, Integer> resultPair = getPart(this.arabicNumber, 1000, "M");
-    roman += resultPair.getKey();
-    resultPair = getPart(resultPair.getValue(), 500, "D");
-    roman += resultPair.getKey();
-    resultPair = getPart(resultPair.getValue(), 100, "C");
-    roman += resultPair.getKey();
-    resultPair = getPart(resultPair.getValue(), 50, "L");
-    roman += resultPair.getKey();
-    resultPair = getPart(resultPair.getValue(), 10, "X");
-    roman += resultPair.getKey();
-    resultPair = getPart(resultPair.getValue(), 5, "V");
-    roman += resultPair.getKey();
-    resultPair = getPart(resultPair.getValue(), 1, "I");
-    roman += resultPair.getKey();
+    Pair<String, Integer> resultPair = new Pair<>("", this.arabicNumber);
+    for (Map.Entry<Integer, String> entry : RomanNumeral.arabicRomanMap.entrySet()) {
+      System.out.println(entry.getKey());
+      resultPair = getPart(resultPair.getValue(), entry.getKey(), entry.getValue());
+      roman += resultPair.getKey();
+    }
     return roman;
   }
 
