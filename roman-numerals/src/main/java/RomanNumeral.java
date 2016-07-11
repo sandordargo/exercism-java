@@ -27,7 +27,7 @@ public class RomanNumeral {
     String roman = "";
     Pair<String, Integer> resultPair = new Pair<>("", this.arabicNumber);
     for (Map.Entry<Integer, String> entry : RomanNumeral.arabicRomanMap.entrySet()) {
-      resultPair = getPart(resultPair.getValue(), new Pair<Integer, String>(entry.getKey(), entry.getValue()));
+      resultPair = getPart(resultPair.getValue(), new Pair<>(entry.getKey(), entry.getValue()));
       roman += resultPair.getKey();
     }
     return roman;
