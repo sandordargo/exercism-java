@@ -1,82 +1,29 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.IntConsumer;
+import java.util.function.Function;
+
 /**
  * Created by sdargo on 14/07/16.
  */
 public class Strain {
 
-  interface IntegerMath {
-    boolean evaluate(Integer number);
-  }
-
-  interface IntegerListMath {
-    boolean evaluate(List<Integer> number);
-  }
-
-
-  interface StringOperation {
-    boolean evaluate(String string);
-  }
-
-  public static List<List<Integer>> keep(List<List<Integer>> inputList, IntegerListMath expression) {
-    List<List<Integer>> intergers = new ArrayList<>();
-    for (List<Integer> number : inputList) {
-      if (expression.evaluate(number)) {
-        intergers.add(number);
+  public static <T> List<T> keep(List<T> inputList, Function<T, Boolean> expression) {
+    List<T> returnList = new ArrayList<>();
+    for (T item : inputList) {
+      if (expression.apply(item)) {
+        returnList.add(item);
       }
     }
-    return intergers;
+    return returnList;
   }
 
-  public static List<List<Integer>> discard(List<List<Integer>> inputList, IntegerListMath expression) {
-    List<List<Integer>> intergers = new ArrayList<>();
-    for (List<Integer> number : inputList) {
-      if (!expression.evaluate(number)) {
-        intergers.add(number);
+  public static <T> List<T> discard(List<T> inputList, Function<T, Boolean> expression) {
+    List<T> returnList = new ArrayList<>();
+    for (T items : inputList) {
+      if (!expression.apply(items)) {
+        returnList.add(items);
       }
     }
-    return intergers;
+    return returnList;
   }
-
-  public static List<Integer> keep(List<Integer> inputList, IntegerMath expression) {
-    List<Integer> intergers = new ArrayList<>();
-    for (Integer number : inputList) {
-      if (expression.evaluate(number)) {
-        intergers.add(number);
-      }
-    }
-    return intergers;
-  }
-
-  public static List<String> keep(List<String> inputList, StringOperation expression) {
-    List<String> intergers = new ArrayList<>();
-    for (String number : inputList) {
-      if (expression.evaluate(number)) {
-        intergers.add(number);
-      }
-    }
-    return intergers;
-  }
-
-  public static List<String> discard(List<String> inputList, StringOperation expression) {
-    List<String> intergers = new ArrayList<>();
-    for (String number : inputList) {
-      if (!expression.evaluate(number)) {
-        intergers.add(number);
-      }
-    }
-    return intergers;
-  }
-
-  public static List<Integer> discard(List<Integer> inputList, IntegerMath expression) {
-    List<Integer> intergers = new ArrayList<>();
-    for (Integer number : inputList) {
-      if (!expression.evaluate(number)) {
-        intergers.add(number);
-      }
-    }
-    return intergers;
-  }
-
 }
