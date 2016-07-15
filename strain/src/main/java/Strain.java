@@ -18,12 +18,6 @@ public class Strain {
   }
 
   public static <T> List<T> discard(List<T> inputList, Function<T, Boolean> expression) {
-    List<T> returnList = new ArrayList<>();
-    for (T items : inputList) {
-      if (!expression.apply(items)) {
-        returnList.add(items);
-      }
-    }
-    return returnList;
+    return keep(inputList, item -> !expression.apply(item));
   }
 }
