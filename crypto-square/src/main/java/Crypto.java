@@ -42,21 +42,17 @@ public class Crypto {
     int rows = this.getPlaintextSegments().size();
     String cipheredText = this.getCipherText();
     int fillingSpaces = rows * this.squaresize - cipheredText.length();
-    Map<Integer, Integer> rowLentghMap = new HashMap<>();
     Map<Integer, String> rowTextMap = new HashMap<>();
-    for (int rowNumber=0; rowNumber < this.squaresize; rowNumber++) {
-      if (rowNumber + 1 > this.squaresize - fillingSpaces) {
-        rowLentghMap.put(rowNumber + 1, rows - 1);
-      } else {
-        rowLentghMap.put(rowNumber + 1, rows);
-      }
-    }
     int position = 0;
-    for (Map.Entry<Integer, Integer> entry : rowLentghMap.entrySet()) {
-      int length = entry.getValue();
-      rowTextMap.put(entry.getKey(), cipheredText.substring(position, position + length));
+    for (int rowNumber=0; rowNumber < this.squaresize; rowNumber++) {
+      int length = rows;
+      if (rowNumber + 1 > this.squaresize - fillingSpaces) {
+        length = rows - 1;
+      }
+      rowTextMap.put(rowNumber + 1, cipheredText.substring(position, position + length));
       position += length;
     }
+
     for (Map.Entry<Integer, String> entry : rowTextMap.entrySet()) {
       normalizedChipher += entry.getValue() + " ";
     }
