@@ -7,11 +7,15 @@ public class Crypto {
   private String input;
   private String normalized;
   private int squaresize;
+  private List<String> plaintextSegments;
+  private int rows;
 
   public Crypto(String input) {
     this.input = input;
     this.normalized = normalize(input);
     this.squaresize = calculateSquareSize();
+    this.plaintextSegments = buildPlaintextSegments();
+    this.rows = this.plaintextSegments.size();
   }
 
   public String getNormalizedPlaintext() {
@@ -22,44 +26,44 @@ public class Crypto {
     return this.squaresize;
   }
 
+  public List<String> getPlaintextSegments() {
+    return this.plaintextSegments;
+  }
+
   public String getCipherText() {
     String cypheredText = "";
     List<String> strings = this.getPlaintextSegments();
-    int rows = strings.size();
     for (int i=0; i<this.squaresize; i++) {
-      for (int j=0; j<rows; j++) {
+      for (int j=0; j<this.rows; j++) {
         if (i < strings.get(j).length()) {
           cypheredText += strings.get(j).charAt(i);
         }
       }
     }
-
     return cypheredText;
   }
 
   public String getNormalizedCipherText() {
     String normalizedChipher = "";
-    int rows = this.getPlaintextSegments().size();
     String cipheredText = this.getCipherText();
-    int fillingSpaces = rows * this.squaresize - cipheredText.length();
+    int fillingSpaces = this.rows * this.squaresize - cipheredText.length();
     Map<Integer, String> rowTextMap = new HashMap<>();
     int position = 0;
     for (int rowNumber=0; rowNumber < this.squaresize; rowNumber++) {
-      int length = rows;
+      int length = this.rows;
       if (rowNumber + 1 > this.squaresize - fillingSpaces) {
-        length = rows - 1;
+        length = this.rows - 1;
       }
       rowTextMap.put(rowNumber + 1, cipheredText.substring(position, position + length));
       position += length;
     }
-
     for (Map.Entry<Integer, String> entry : rowTextMap.entrySet()) {
       normalizedChipher += entry.getValue() + " ";
     }
     return normalizedChipher.trim();
   }
 
-  public List<String> getPlaintextSegments() {
+  private List<String> buildPlaintextSegments() {
     List<String> strings = new ArrayList<String>();
     int index = 0;
     while (index < this.normalized.length()) {
