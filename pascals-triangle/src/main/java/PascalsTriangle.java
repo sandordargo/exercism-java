@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /**
  * Created by sdargo on 22/07/16.
  */
@@ -5,6 +7,7 @@
 public class PascalsTriangle {
 
   public static int[][] computeTriangle(int numberOfLevels) {
+    if (numberOfLevels < 0) { throw  new IllegalArgumentException(); }
     int[][] pascalsTriangle = new int[numberOfLevels][];
     for (int level=1; level <= numberOfLevels; ++level) {
       pascalsTriangle[level-1] = new int[level];
@@ -18,7 +21,6 @@ public class PascalsTriangle {
         pascalsTriangle[level - 1][numbersOnLevel - 1] = numberToAdd;
       }
     }
-
     printTriangle(pascalsTriangle);
     return pascalsTriangle;
   }
@@ -31,10 +33,10 @@ public class PascalsTriangle {
         System.out.println(triangle[level][element]);
       }
     }
-
   }
 
   public static boolean isTriangle(int[][] inputTriangle) {
-    return false;
+    int numberOfLines = inputTriangle.length;
+    return Arrays.deepEquals(inputTriangle, PascalsTriangle.computeTriangle(numberOfLines));
   }
 }
